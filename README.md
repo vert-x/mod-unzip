@@ -1,12 +1,19 @@
-# Vert.x Gradle Template
+# Vert.x Unzip Module
 
-Template project for creating a Vert.x module with a Gradle build.
+Simple worker module that given the file name of a zip file, unzips it to a temp directory or a specified directory and returns the filename in a Json message
 
-Clone this and adapt it to easily develop Vert.x modules using Gradle as your build tool.
+## Configuration
 
-By default this module contains a simple Java verticle which listens on the event bus and responds to `ping!`
-messages with `pong!`.
+Fields:
 
-This template also shows you how to write tests in Java, Groovy, Ruby and Python
+`address`: The address on the event bus where to listen for messages
 
-See the [build script](build.gradle) for the list of useful tasks
+## Usage
+
+Send a Json message to `address`.
+
+Fields:
+
+* `zipFile`: Mandatory. Name of a zip file to unzip. It must exist
+* `destDir`: Optional. Name of directory to unzip the file to. If not specified a temp directory will be generated. The destDir will be created if it does not exist already.
+* `deleteZip`: Optional. Boolean. If `true` then the zip file will be deleted afterwards. Default is `false`.
