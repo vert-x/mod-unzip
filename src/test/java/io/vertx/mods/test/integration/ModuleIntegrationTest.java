@@ -42,17 +42,38 @@ public class ModuleIntegrationTest extends TestVerticle {
   private static final String destDir = "src/test/resources/destDir";
 
   @Test
-  public void testUnzip() {
+  public void testUnzipSpecifyDir() {
     JsonObject msg = new JsonObject().putString("zipFile", "src/test/resources/testfile.zip").putString("destDir", destDir);
     vertx.eventBus().send("io.vertx.unzipper", msg, new Handler<Message<JsonObject>>() {
       @Override
       public void handle(Message<JsonObject> reply) {
         assertEquals("ok", reply.body().getString("status"));
-        assertTrue(vertx.fileSystem().existsSync(destDir + "/some-dir"));
-        assertTrue(vertx.fileSystem().existsSync(destDir + "/some-dir/textfile.txt"));
+        String dest = reply.body().getString("destDir");
+        assertEquals(destDir, dest);
+        assertUnzipped(dest);
         testComplete();
       }
     });
+  }
+
+  @Test
+  public void testUnzipTempDir() {
+    JsonObject msg = new JsonObject().putString("zipFile", "src/test/resources/testfile.zip");
+    vertx.eventBus().send("io.vertx.unzipper", msg, new Handler<Message<JsonObject>>() {
+      @Override
+      public void handle(Message<JsonObject> reply) {
+        assertEquals("ok", reply.body().getString("status"));
+        String dest = reply.body().getString("destDir");
+        assertNotNull(dest);
+        assertUnzipped(dest);
+        testComplete();
+      }
+    });
+  }
+
+  private void assertUnzipped(String dest) {
+    assertTrue(vertx.fileSystem().existsSync(dest + "/some-dir"));
+    assertTrue(vertx.fileSystem().existsSync(dest + "/some-dir/textfile.txt"));
   }
 
   @Override
