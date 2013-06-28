@@ -71,7 +71,7 @@ def configurePom(def pom) {
     name rootProject.name
     description 'Vert.x module for unzipping .zip files'
     inceptionYear '2013'
-    packaging 'zip'
+    packaging produceJar == 'false' ? 'pom' : 'jar'
     url 'https://github.com/vert-x/mod-unzip'
 
     developers {
