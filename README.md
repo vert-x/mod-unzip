@@ -1,14 +1,16 @@
-# Vert.x Unzip Module
+# Vert.x 2.x is **deprecated** - use instead http://vertx.io
+
+## Vert.x Unzip Module
 
 Simple worker module that given the file name of a zip file, unzips it to a temp directory or a specified directory and returns the filename in a Json message
 
-## Configuration
+### Configuration
 
 Fields:
 
 `address`: The address on the event bus where to listen for messages
 
-## Usage
+### Usage
 
 Send a Json message to `address`.
 
